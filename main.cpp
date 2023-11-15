@@ -8,7 +8,7 @@
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1600, 900), "Square Eater");
-    MovableRectangle eater(30, 30, 100, 100, sf::Color::Red);
+    MovableRectangle eater(400, 400, 40, 40, sf::Color::Red);
     BricksSpawner bricks_spawner(window.getSize());
 
     while (window.isOpen())
@@ -42,6 +42,10 @@ int main()
 
         eater.move();
         eater.draw(window);
+
+        bricks_spawner.areCollisionsOnSite(eater);
+        if(bricks_spawner.collsionHappened())
+            return 0;
 
         window.display();
     }

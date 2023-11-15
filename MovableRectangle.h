@@ -27,6 +27,7 @@ public:
     void draw(sf::RenderWindow &window);
     void changeDirection(Direction dir);
     void move();
+    sf::FloatRect getBounds() const;
 };
 
 

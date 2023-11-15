@@ -5,24 +5,44 @@
 #include "BricksSpawner.h"
 
 #include <iostream>
+#include <random>
+#include <SFML/System/Time.hpp>
 
-BricksSpawner::BricksSpawner(sf::Vector2u windowSize): m_bricksLimit(10){
-    for (int i = 0; i < m_bricksLimit; ++i) {
-        Brick brick(right, windowSize);
-        m_bricks.push_back(brick);
-    }
+BricksSpawner::BricksSpawner(sf::Vector2u windowSize): m_bricksLimit(50), m_spawn(false),
+                                                       m_windowSize(windowSize), m_resetPeriod(.1f), m_collisionHappened(false) {
 }
 
 void BricksSpawner::moveAndDraw(sf::RenderWindow &window) {
+    spawn();
     for(int i = 0, size = m_bricks.size(); i < size; i++) {
         m_bricks[i].move();
         m_bricks[i].draw(window);
+
+        if(m_bricks[i].isItOutside()) {
+            m_bricks.erase(m_bricks.begin()+i);
+        }
     }
 }
 
+bool BricksSpawner::collsionHappened() {
+    return m_collisionHappened;
+}
+
 bool BricksSpawner::spawn() {
+    if(m_clock.getElapsedTime().asSeconds() > m_resetPeriod && m_bricks.size() < m_bricksLimit) {
+        m_clock.restart();
+        std::mt19937 mt{ std::random_device{}()};
+        std::uniform_int_distribution<> dist{0, 3};
+        const Brick brick((Direction)dist(mt), m_windowSize);
+        m_bricks.push_back(brick);
+        return true;
+    }
+    return false;
 }
 
 bool BricksSpawner::areCollisionsOnSite(MovableRectangle player) {
+    for (auto brick: m_bricks) {
+        if(brick.getBounds().intersects(player.getBounds()))
+            m_collisionHappened = true;
+    }
 }
-

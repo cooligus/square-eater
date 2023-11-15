@@ -4,9 +4,10 @@
 
 #include "Brick.h"
 
+#include <iostream>
 #include <random>
 
-Brick::Brick(const Direction dir, sf::Vector2u windowSize):m_windowSize(windowSize), m_size(30) {
+Brick::Brick(Direction dir, sf::Vector2u windowSize):m_windowSize(windowSize), m_size(30) {
     sf::Color color;
     float posX = 0, posY = 0;
     m_dir = dir;
@@ -17,7 +18,7 @@ Brick::Brick(const Direction dir, sf::Vector2u windowSize):m_windowSize(windowSi
 
     switch (dir) {
         case up:
-            color = sf::Color::Blue;
+            color = sf::Color::Magenta;
             posX = randomX(mt);
             posY = windowSize.y + m_size;
             break;
@@ -45,20 +46,17 @@ Brick::Brick(const Direction dir, sf::Vector2u windowSize):m_windowSize(windowSi
 
 bool Brick::isItOutside() const {
     const sf::Vector2f pos = m_shape.getPosition();
-    switch (m_dir) {
-        case up:
-            if(pos.y + m_size < 0)
-                return true;
-        case right:
-            if(pos.x > m_size + m_windowSize.x)
-                return true;
-        case down:
-            if(pos.y > m_size + m_windowSize.y)
-                return true;
-        case left:
-            if(pos.x + m_size < 0)
-                return true;
-        default:
-            return false;
+    if(m_dir == up && pos.y + m_size < 0) {
+        return true;
     }
+    if(m_dir == right && pos.x > m_windowSize.x) {
+        return true;
+    }
+    if(m_dir == down&& pos.y > m_windowSize.y) {
+        return true;
+    }
+    if(m_dir == left && pos.x + m_size < 0) {
+        return true;
+    }
+    return false;
 }

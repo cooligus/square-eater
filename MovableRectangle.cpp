@@ -11,10 +11,11 @@ void MovableRectangle::setNewPos(float x, float y) {
     m_shape.setPosition(pos.x +x, pos.y + y);
 }
 
-MovableRectangle::MovableRectangle() : m_shape(sf::Vector2f(0, 0)), m_speed(.2f), m_dir(none){
+MovableRectangle::MovableRectangle() : m_shape(sf::Vector2f(0, 0)), m_speed(.05f), m_dir(none){
 }
 
-MovableRectangle::MovableRectangle(float posX, float posY, float sizeX, float sizeY, sf::Color color) : m_shape(sf::Vector2f(sizeX, sizeY)), m_speed(.2f), m_dir(none){
+MovableRectangle::MovableRectangle(float posX, float posY, float sizeX, float sizeY, sf::Color color) : m_shape(sf::Vector2f(sizeX, sizeY)), m_speed(.06f), m_dir(none){
+    m_shape.setPosition(posX, posY);
     m_shape.setFillColor(color);
 }
 
@@ -25,8 +26,6 @@ void MovableRectangle::draw(sf::RenderWindow& window) {
 void MovableRectangle::changeDirection(Direction dir) {
     m_dir = dir;
 }
-
-
 
 void MovableRectangle::move() {
     switch (m_dir) {
@@ -42,6 +41,12 @@ void MovableRectangle::move() {
         case left:
             setNewPos(-m_speed, 0);
             break;
+        default:
+            break;
     }
+}
+
+sf::FloatRect MovableRectangle::getBounds() const {
+    return m_shape.getGlobalBounds();
 }
 
