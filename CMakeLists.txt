@@ -11,3 +11,4 @@ add_executable(squareEater main.cpp
         BricksSpawner.h)
 find_package(SFML COMPONENTS system window graphics CONFIG REQUIRED)
 target_link_libraries(squareEater PUBLIC sfml-system sfml-window sfml-graphics)
+install(FILES font.otf DESTINATION .)

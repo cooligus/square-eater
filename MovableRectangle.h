@@ -20,7 +20,6 @@ protected:
     sf::RectangleShape m_shape;
     Direction m_dir;
     float m_speed;
-    void setNewPos(float x, float y);
 public:
     MovableRectangle();
     MovableRectangle(float posX, float posY, float sizeX, float sizeY, sf::Color color);

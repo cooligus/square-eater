@@ -12,7 +12,7 @@
 class BricksSpawner {
     std::vector<Brick> m_bricks;
     int m_bricksLimit;
-    sf::Clock m_clock;
+    sf::Clock m_spawningClock;
     bool m_spawn;
     float m_resetPeriod;
     sf::Vector2u m_windowSize;

@@ -4,13 +4,6 @@
 
 #include "MovableRectangle.h"
 
-#include <iostream>
-
-void MovableRectangle::setNewPos(float x, float y) {
-    const auto pos = m_shape.getPosition();
-    m_shape.setPosition(pos.x +x, pos.y + y);
-}
-
 MovableRectangle::MovableRectangle() : m_shape(sf::Vector2f(0, 0)), m_speed(.05f), m_dir(none){
 }
 
@@ -30,16 +23,16 @@ void MovableRectangle::changeDirection(Direction dir) {
 void MovableRectangle::move() {
     switch (m_dir) {
         case up:
-            setNewPos(0, -m_speed);
+            m_shape.move(0, -m_speed);
             break;
         case right:
-            setNewPos(m_speed, 0);
+            m_shape.move(m_speed, 0);
             break;
         case down:
-            setNewPos(0, m_speed);
+            m_shape.move(0, m_speed);
             break;
         case left:
-            setNewPos(-m_speed, 0);
+            m_shape.move(-m_speed, 0);
             break;
         default:
             break;

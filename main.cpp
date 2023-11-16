@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <SFML/Graphics.hpp>
 
 #include "Brick.h"
@@ -10,6 +11,19 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1600, 900), "Square Eater");
     MovableRectangle eater(400, 400, 40, 40, sf::Color::Red);
     BricksSpawner bricks_spawner(window.getSize());
+
+    sf::Font font;
+    font.loadFromFile("./font.otf");
+
+    sf::Text text;
+    text.setString("Click space to start");
+    text.setColor(sf::Color::White);
+    text.setFont(font);
+    text.setCharacterSize(20);
+
+    sf::Clock gameTime;
+
+    bool started = false;
 
     while (window.isOpen())
     {
@@ -32,21 +46,33 @@ int main()
                     case sf::Keyboard::A:
                         eater.changeDirection(left);
                         break;
+                    case sf::Keyboard::Space:
+                        started = true;
+                        gameTime.restart();
+                        break;
                     default: ;
                 }
         }
 
         window.clear();
 
-        bricks_spawner.moveAndDraw(window);
+        if(started) {
+            bricks_spawner.moveAndDraw(window);
 
-        eater.move();
+            eater.move();
+
+            bricks_spawner.areCollisionsOnSite(eater);
+            if(bricks_spawner.collsionHappened()) {
+                started = false;
+                text.setString("Your time: " + std::to_string(gameTime.getElapsedTime().asMilliseconds()/1000.f));
+                gameTime.restart();
+                bricks_spawner = BricksSpawner(window.getSize());
+            }
+
+        }
         eater.draw(window);
-
-        bricks_spawner.areCollisionsOnSite(eater);
-        if(bricks_spawner.collsionHappened())
-            return 0;
-
+        if(!started)
+            window.draw(text);
         window.display();
     }
 

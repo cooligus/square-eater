@@ -29,8 +29,8 @@ bool BricksSpawner::collsionHappened() {
 }
 
 bool BricksSpawner::spawn() {
-    if(m_clock.getElapsedTime().asSeconds() > m_resetPeriod && m_bricks.size() < m_bricksLimit) {
-        m_clock.restart();
+    if(m_spawningClock.getElapsedTime().asSeconds() > m_resetPeriod && m_bricks.size() < m_bricksLimit) {
+        m_spawningClock.restart();
         std::mt19937 mt{ std::random_device{}()};
         std::uniform_int_distribution<> dist{0, 3};
         const Brick brick((Direction)dist(mt), m_windowSize);
