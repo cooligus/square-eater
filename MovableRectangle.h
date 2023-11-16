@@ -17,6 +17,7 @@ enum Direction {
 
 class MovableRectangle {
 protected:
+    sf::Clock m_clock;
     sf::RectangleShape m_shape;
     Direction m_dir;
     float m_speed;
@@ -26,6 +27,7 @@ public:
     void draw(sf::RenderWindow &window);
     void changeDirection(Direction dir);
     void move();
+    void resetTimer();
     sf::FloatRect getBounds() const;
 };
 

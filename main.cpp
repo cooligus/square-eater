@@ -48,6 +48,7 @@ int main()
                         break;
                     case sf::Keyboard::Space:
                         started = true;
+                        eater.resetTimer();
                         gameTime.restart();
                         break;
                     default: ;
