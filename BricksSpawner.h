@@ -17,12 +17,17 @@ class BricksSpawner {
     float m_resetPeriod;
     sf::Vector2u m_windowSize;
     bool m_collisionHappened;
+
 public:
     explicit BricksSpawner(sf::Vector2u windowSize);
-    void moveAndDraw(sf::RenderWindow& window);
+
+    void moveAndDraw(sf::RenderWindow&window);
+
     bool collsionHappened();
+
     bool spawn();
-    bool areCollisionsOnSite(MovableRectangle player);
+
+    bool areCollisionsOnSite(Brick player);
 };
 
 #endif //BRICKSSPAWNER_H

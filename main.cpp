@@ -1,15 +1,13 @@
-#include <iostream>
+#include <sstream>
 #include <string>
 #include <SFML/Graphics.hpp>
 
 #include "Brick.h"
 #include "BricksSpawner.h"
-#include "MovableRectangle.h"
 
-int main()
-{
+int main() {
     sf::RenderWindow window(sf::VideoMode(1600, 900), "Square Eater");
-    MovableRectangle eater(400, 400, 40, 40, sf::Color::Red);
+    Brick eater(400, 400, 40, .35f, sf::Color::Red, window.getSize(), none);
     BricksSpawner bricks_spawner(window.getSize());
 
     sf::Font font;
@@ -25,11 +23,9 @@ int main()
 
     bool started = false;
 
-    while (window.isOpen())
-    {
+    while (window.isOpen()) {
         sf::Event event;
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
             if (event.type == sf::Event::KeyPressed)
@@ -57,22 +53,30 @@ int main()
 
         window.clear();
 
-        if(started) {
+        if (started) {
             bricks_spawner.moveAndDraw(window);
 
-            eater.move();
+            eater.go();
+
+            if (eater.isOutisde())
+                eater.setPosition(400, 400);
+
 
             bricks_spawner.areCollisionsOnSite(eater);
-            if(bricks_spawner.collsionHappened()) {
+            if (bricks_spawner.collsionHappened()) {
                 started = false;
-                text.setString("Your time: " + std::to_string(gameTime.getElapsedTime().asMilliseconds()/1000.f));
+
+                std::stringstream s;
+                s << gameTime.getElapsedTime().asMilliseconds() / 1000.f;
+                std::string result = s.str();
+
+                text.setString("Your time: " + result);
                 gameTime.restart();
                 bricks_spawner = BricksSpawner(window.getSize());
             }
-
         }
         eater.draw(window);
-        if(!started)
+        if (!started)
             window.draw(text);
         window.display();
     }

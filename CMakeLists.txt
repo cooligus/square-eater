@@ -3,8 +3,6 @@ project(squareEater)
 
 set(CMAKE_CXX_STANDARD 17)
 add_executable(squareEater main.cpp
-        MovableRectangle.cpp
-        MovableRectangle.h
         Brick.cpp
         Brick.h
         BricksSpawner.cpp
